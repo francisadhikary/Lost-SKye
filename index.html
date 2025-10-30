@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost Skye — Video Game </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { rdr: '#0b0b0b' }, }, }, }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ --accent: #b91c1c; }
+    html,body{ height:100%; }
+    body{ font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#000; color:#fff; }
+
+    /* subtle floating for hero image/characters */
+    @keyframes floaty {
+      0%{ transform: translateY(0); }
+      50%{ transform: translateY(-8px); }
+      100%{ transform: translateY(0); }
+    }
+
+    @keyframes slideUp { from{ opacity:0; transform: translateY(18px);} to{opacity:1; transform: translateY(0);} }
+    @keyframes glow { 0%{ box-shadow:0 0 0 rgba(185,28,28,0);} 50%{ box-shadow:0 0 40px rgba(185,28,28,0.12);} 100%{ box-shadow:0 0 0 rgba(185,28,28,0);} }
+
+    /* reveal when scrolled into view */
+    .reveal{ opacity:0; transform: translateY(18px); transition: all 700ms cubic-bezier(.2,.9,.2,1); }
+    .reveal.in-view{ opacity:1; transform: translateY(0); }
+
+    /* hero overlay and parallax */
+    .hero-bg{ background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1950&q=80'); background-size:cover; background-position:center; }
+    .hero-overlay{ background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.8) 70%); }
+
+    /* floating screenshots */
+    .screenshot { transition: transform 400ms ease, filter 400ms ease; will-change: transform; }
+    .screenshot:hover{ transform: scale(1.06) translateY(-6px) rotate(-1.2deg); filter: saturate(1.08) contrast(1.02); }
+
+    /* buy pulse */
+    .pulse-btn{ animation: glow 2.6s infinite; }
+
+    /* navbar blur on scroll */
+    header.scrolled{ backdrop-filter: blur(6px); background: rgba(0,0,0,0.35); transition: background 300ms ease; }
+
+    /* trailer overlay */
+    .video-plate{ position:relative; overflow:hidden; border-radius:0.6rem; }
+    .video-play{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+    .video-play .circle{ width:84px; height:84px; border-radius:999px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; transition: transform 220ms ease; }
+    .video-play:hover .circle{ transform: scale(1.06); }
+    .play-triangle{ width:0;height:0;border-left:18px solid white;border-top:12px solid transparent;border-bottom:12px solid transparent; margin-left:6px; }
+
+    /* small decorative stars (particle) */
+    .particles{ position:absolute; inset:0; pointer-events:none; }
+    .particle{ position:absolute; width:6px; height:6px; border-radius:999px; background: rgba(255,255,255,0.06); animation: floaty 6s infinite ease-in-out; }
+
+    /* subtle typed headline caret */
+    .typed::after{ content:"|"; margin-left:6px; opacity:0.8; animation: blink 1s steps(1) infinite; }
+    @keyframes blink{ 50%{ opacity:0 } }
+
+    /* footer slide */
+    footer{ border-top:1px solid rgba(255,255,255,0.03); }
+  </style>
+</head>
+<body class="bg-black text-white">
+  <!-- NAVBAR -->
+  <header id="site-header" class="fixed w-full z-40 top-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-4">
+          <div class="text-2xl font-bold tracking-tight text-white select-none">Lost Skye<span class="text-sm ml-2 text-gray-400">DHAKA</span></div>
+          <ul class="hidden md:flex items-center gap-6 text-gray-300">
+            <li class="hover:text-white transition">Home</li>
+            <li class="hover:text-white transition">Features</li>
+            <li class="hover:text-white transition">Screenshots</li>
+            <li class="hover:text-white transition">Buy</li>
+          </ul>
+        </div>
+        <div class="flex items-center gap-3">
+          <button id="buy-top" class="hidden md:inline-block bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded pulse-btn">BUY</button>
+          <button id="menu" class="md:hidden text-gray-300">Menu</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-bg hero-overlay pt-24 pb-28 relative overflow-hidden">
+    <div class="particles" aria-hidden>
+      <span class="particle" style="left:6%; top:10%; animation-delay:0s; width:6px;height:6px;opacity:0.06"></span>
+      <span class="particle" style="left:32%; top:22%; animation-delay:1s; width:8px;height:8px;opacity:0.04"></span>
+      <span class="particle" style="left:72%; top:6%; animation-delay:2s; width:5px;height:5px;opacity:0.06"></span>
+      <span class="particle" style="left:84%; top:44%; animation-delay:1.4s; width:6px;height:6px;opacity:0.03"></span>
+      <span class="particle" style="left:22%; top:64%; animation-delay:3s; width:6px;height:6px;opacity:0.04"></span>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1 class="text-5xl md:text-6xl leading-tight font-extrabold tracking-tight reveal in-view" style="animation-delay:80ms; animation-duration:900ms;">Francis Adhikary &mdash; <span class="text-red-500">Dhaka, 1977</span></h1>
+          <p class="mt-6 text-gray-300 max-w-xl reveal in-view" style="animation-delay:180ms;">An epic tale of honor and loyalty at the dawn of the modern age. Explore a living, breathing world — hunt, ride, fight and survive. Dynamic events and unforgettable characters await.</p>
+
+          <div class="mt-8 flex items-center gap-4 reveal in-view" style="animation-delay:260ms;">
+            <button id="buy-hero" class="bg-red-700 hover:bg-red-800 text-white font-semibold py-3 px-6 rounded shadow-lg transform transition hover:-translate-y-1">Buy Now</button>
+            <button id="watch-hero" class="bg-transparent border border-gray-600 hover:border-white text-white font-medium py-3 px-6 rounded">Watch Trailer</button>
+          </div>
+
+          <div class="mt-6 text-sm text-gray-400 reveal in-view" style="animation-delay:340ms;">Unleashing The Motivation To Build Up a AAA Title For Bangladesh.</div>
+        </div>
+
+        <div class="relative">
+          <div class="video-plate rounded-lg overflow-hidden shadow-2xl" style="animation: floaty 5s ease-in-out infinite;">
+            <img src="rdr2-1.jpg" alt="Arthur" class="w-full h-80 object-cover">
+            <div class="video-play" id="open-trailer">
+              <div class="circle">
+                <div class="play-triangle"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Game Features -->
+    <section class="py-8">
+      <h2 class="text-3xl font-bold mb-8 text-center reveal">THE GAME</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <article class="bg-gray-900 p-6 rounded-lg reveal">
+          <h3 class="text-xl font-semibold mb-3">Daka, 1977</h3>
+          <p class="text-gray-300">Sadaf and Adhikary lost imto a vast dark world without knowing this is a place of killing and adventures.</p>
+        </article>
+        <article class="bg-gray-900 p-6 rounded-lg reveal">
+          <h3 class="text-xl font-semibold mb-3">A VAST WORLD</h3>
+          <p class="text-gray-300">Five fictional states offer snowy mountains, dusty plains, bustling towns and lawless outposts — each environment filled with wildlife and dynamic events.</p>
+        </article>
+        <article class="bg-gray-900 p-6 rounded-lg reveal">
+          <h3 class="text-xl font-semibold mb-3">FUTURE PLAN</h3>
+          <p class="text-gray-300">Dreaming that this game will held the record of the 1st ever Bangladeshi AAA Game.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="py-12">
+      <h2 class="text-3xl font-bold mb-6 text-center reveal">SCREENSHOTS</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <img class="screenshot rounded-lg reveal" src="https://static0.srcdn.com/wordpress/wp-content/uploads/2020/08/king-of-forest-red-dead-.jpg" alt="Screenshot 1">
+        <img class="screenshot rounded-lg reveal" src="https://api.progamer.pro/wp-content/uploads/2024/02/rdr2-chapter-2.jpg" alt="Screenshot 2">
+        <img class="screenshot rounded-lg reveal" src="https://www.svg.com/img/gallery/easter-eggs-you-missed-in-red-dead-redemption-2/intro-1541108127.jpg" alt="Screenshot 3">
+        <img class="screenshot rounded-lg reveal" src="https://gamerant.com/wp-content/uploads/red-dead-redemption-2-gunplay-screenshots-forest.jpg" alt="Screenshot 4">
+        <img class="screenshot rounded-lg reveal" src="https://m.media-amazon.com/images/I/81EKM5mfBwS._AC_UF1000,1000_QL80_.jpg" alt="Screenshot 5">
+        <img class="screenshot rounded-lg reveal" src="https://img.goodfon.com/original/3840x2160/0/fb/rdr-2-red-dead-redemption-2-game-landscape-nature-sea-water.jpg" alt="Screenshot 6">
+      </div>
+    </section>
+
+    <!-- Buy Now -->
+    <section class="py-12 text-center">
+      <h2 class="text-3xl font-bold mb-6 reveal">AVAILABLE NOW</h2>
+      <div class="flex flex-wrap justify-center gap-4 reveal">
+        <button class="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-8 rounded transform transition hover:scale-105">BUY NOW</button>
+        <button class="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded">WATCH TRAILER</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="py-8 text-gray-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="text-sm">&copy; <span id="year"></span> Lost Skye — Made with ❤️</div>
+      <div class="text-sm">Terms • Privacy • Credits</div>
+    </div>
+  </footer>
+
+  <!-- TRAILER MODAL -->
+  <div id="trailer-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center p-4">
+    <div class="w-full max-w-4xl aspect-w-16 aspect-h-9 bg-black rounded-lg overflow-hidden relative">
+      <button id="close-trailer" class="absolute right-3 top-3 z-50 bg-white/5 px-3 py-1 rounded">Close</button>
+      <iframe id="trailer-frame" class="w-full h-full" src="https://www.youtube.com/embed/gmA6MrX81z4?rel=0&autoplay=1" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <script>
+    // small helpers: add 'in-view' when element appears
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el=>io.observe(el));
+
+    // navbar scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', ()=>{
+      if(window.scrollY > 24) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+    });
+
+    // trailer open/close
+    const openBtn = document.getElementById('open-trailer');
+    const modal = document.getElementById('trailer-modal');
+    const close = document.getElementById('close-trailer');
+    openBtn.addEventListener('click', ()=>{ modal.classList.remove('hidden'); modal.style.display = 'flex'; document.body.style.overflow='hidden'; });
+    close.addEventListener('click', ()=>{ modal.classList.add('hidden'); modal.style.display='none'; document.body.style.overflow='auto'; document.getElementById('trailer-frame').src = 'https://www.youtube.com/embed/gmA6MrX81z4?rel=0'; });
+
+    // quick top buy button
+    document.getElementById('buy-top').addEventListener('click', ()=>{ window.scrollTo({ top: document.querySelector('main').offsetTop, behavior:'smooth' }); });
+    document.getElementById('buy-hero').addEventListener('click', ()=>{ window.scrollTo({ top: document.querySelector('main').offsetTop, behavior:'smooth' }); });
+
+    // fill copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
